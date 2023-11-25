@@ -4,17 +4,18 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 import DropDownPicker from 'react-native-dropdown-picker';
+import { Picker } from '@react-native-picker/picker';
 
 
-// "Set a time button": Brings up the picker style time thingy from the bottom
-// Time picking: 0-9h, 0-60min
-// Swipe back up, press the spark button at the bottom 
+
+
+
 // Black out rest of the screen: On press touchbale opacity with black tint?
 // Once pressed, show the coundown in the form MIN:SEC
 
-// Switch back to picker style stuff? 
 // Somehow keep the bottom "Spark" bar constant throughout different pages. Maybe import the component from Isa's app.js?
 
+// Somehow add a constant "h" symbol on the side of the pickers (?)
 
 // Maybe add a pause button for the break? onPress={() => setIsPlaying(prev => !prev)}
 // Switch fonts to use the proper ones
@@ -23,9 +24,15 @@ import DropDownPicker from 'react-native-dropdown-picker';
 
 function TimerPage() {
     const [modalVisible, setModalVisible] = React.useState(false);
+    const [selectedHour, setSelectedHour] = React.useState(0);
+
+    // Create array from 0 to 59, for minute choices
+    const numbers = [...Array(60).keys()]
 
     return (
         <View styles={styles.container}>
+
+
             <View>
                 <Image
                     source={require('./assets/img/timerLogs.png')}
@@ -44,6 +51,7 @@ function TimerPage() {
                     Alert.alert('Modal has been closed.');
                     setModalVisible(!modalVisible);
                 }}>
+
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
                         <View style={styles.modalTitle}>
@@ -52,16 +60,59 @@ function TimerPage() {
                             <Text style={styles.descLine2}>make sure not to burnout!</Text>
                         </View>
 
+                        <View style={{ flexDirection: 'row' }}>
+                            <View style={styles.hourChoice}>
+                                <Picker
+                                    selectedValue={selectedHour}
+                                    onValueChange={(itemValue, itemIndex) =>
+                                        setSelectedHour(itemValue)
+                                    }>
+                                    <Picker.Item label="0 h" value={0} />
+                                    <Picker.Item label="1 h" value={1} />
+                                    <Picker.Item label="2 h" value={2} />
+                                    <Picker.Item label="3 h" value={3} />
+                                    <Picker.Item label="4 h" value={4} />
+                                    <Picker.Item label="5 h" value={5} />
+                                    <Picker.Item label="6 h" value={6} />
+                                    <Picker.Item label="7 h" value={7} />
+                                    <Picker.Item label="8 h" value={8} />
+                                    <Picker.Item label="9 h" value={9} />
+                                    <Picker.Item label="10 h" value={10} />
+                                    <Picker.Item label="11 h" value={11} />
+                                    <Picker.Item label="12 h" value={12} />
+                                </Picker>
+                            </View>
+
+                            <View style={styles.minChoice}>
+                                <Picker
+                                    selectedValue={selectedHour}
+                                    onValueChange={(itemValue, itemIndex) =>
+                                        setSelectedHour(itemValue)
+                                    }>
+
+
+                                    {numbers.map((number) => (
+                                        <Picker.Item label={""+number+" min"} value={number} />
+                                    ))}
+                                </Picker>
+
+                            </View>
+                        </View>
+
+
                         <View style={styles.modalSpark}>
                             <Button
                                 title="Spark"
                                 onPress={() => setModalVisible(!modalVisible)}>
                             </Button>
                         </View>
-
                     </View>
                 </View>
+
+
             </Modal>
+
+
 
         </View>
     )
@@ -94,11 +145,13 @@ var styles = StyleSheet.create({
         marginTop: 16
     },
 
-    timerChoice: {
-        flex: 1,
-        backgroundColor: 'white',
-        alignItems: 'center',
-        justifyContent: 'center',
+    hourChoice: {
+        width: '10%',
+        flex: 1
+    },
+
+    minChoice: {
+        flex: 2
     },
 
     centeredView: {
@@ -134,7 +187,7 @@ var styles = StyleSheet.create({
         width: '100%',
         marginRight: 0
     },
-    
+
     breakText: {
         fontSize: 25,
         fontWeight: 'bold'
@@ -154,4 +207,5 @@ var styles = StyleSheet.create({
 
 
 })
+
 export default TimerPage;
