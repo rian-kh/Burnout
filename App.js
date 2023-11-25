@@ -2,14 +2,15 @@ import * as React from 'react';
 import { Button, View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import TimerPage from './TimerPage.js';
 
 function HomeScreen({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 
       <Button
-        title="Meditate"
-        onPress={() => navigation.navigate('Meditate')}
+        title="Timer"
+        onPress={() => navigation.navigate('Timer')}
       />
 
       <Button
@@ -21,14 +22,6 @@ function HomeScreen({ navigation }) {
         title="Statistics"
         onPress={() => navigation.navigate('Statistics')}
       />
-    </View>
-  );
-}
-
-function meditateScreen() {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Meditate Screen</Text>
     </View>
   );
 }
@@ -56,7 +49,7 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Meditate" component={meditateScreen} />
+        <Stack.Screen name="Timer" component={TimerPage} />
         <Stack.Screen name="Journal" component={journalScreen} />
         <Stack.Screen name="Statistics" component={statisticsScreen} />
       </Stack.Navigator>
