@@ -25,10 +25,12 @@ import { Picker } from '@react-native-picker/picker';
 function TimerPage() {
     const [modalVisible, setModalVisible] = React.useState(false);
     const [selectedHour, setSelectedHour] = React.useState(0);
+    const [selectedMin, setSelectedMin] = React.useState(0);
 
     // Create array from 0 to 59, for minute choices
     const numbers = [...Array(60).keys()]
-
+    
+    
     return (
         <View styles={styles.container}>
 
@@ -85,9 +87,9 @@ function TimerPage() {
 
                             <View style={styles.minChoice}>
                                 <Picker
-                                    selectedValue={selectedHour}
+                                    selectedValue={selectedMin}
                                     onValueChange={(itemValue, itemIndex) =>
-                                        setSelectedHour(itemValue)
+                                        setSelectedMin(itemValue)
                                     }>
 
 
@@ -103,17 +105,12 @@ function TimerPage() {
                         <View style={styles.modalSpark}>
                             <Button
                                 title="Spark"
-                                onPress={() => setModalVisible(!modalVisible)}>
+                                onPress={() => console.log("" + selectedHour + ", " + selectedMin)}>
                             </Button>
                         </View>
                     </View>
                 </View>
-
-
             </Modal>
-
-
-
         </View>
     )
 }
