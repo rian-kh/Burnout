@@ -26,10 +26,15 @@ function TimerPage() {
     const [modalVisible, setModalVisible] = React.useState(false);
     const [selectedHour, setSelectedHour] = React.useState(0);
     const [selectedMin, setSelectedMin] = React.useState(0);
+    const [timerVisibility, setTimerVisibility] = React.useState('none');
 
     // Create array from 0 to 59, for minute choices
     const numbers = [...Array(60).keys()]
     
+    function onSpark() {
+        setModalVisible(!modalVisible);
+        setTimerVisibility('inline')
+    }
     
     return (
         <View styles={styles.container}>
@@ -43,6 +48,10 @@ function TimerPage() {
             </View>
 
             <Text style={styles.select}>Select a task</Text>
+
+            <View style={{display:timerVisibility}}>
+                <Text style={styles.select}>{selectedHour} hours, {selectedMin} minutes</Text>
+            </View>
 
             <Button title="Set a time" onPress={() => setModalVisible(true)} style={styles.button} />
             <Modal
@@ -105,7 +114,7 @@ function TimerPage() {
                         <View style={styles.modalSpark}>
                             <Button
                                 title="Spark"
-                                onPress={() => console.log("" + selectedHour + ", " + selectedMin)}>
+                                onPress={() => onSpark()}>
                             </Button>
                         </View>
                     </View>
