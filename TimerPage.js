@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, View, Text, Image, StyleSheet, Modal, Dimensions} from 'react-native';
+import { Button, View, Text, Image, StyleSheet, Modal, Dimensions } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
@@ -46,11 +46,19 @@ function TimerPage() {
                 }}>
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <Text style={styles.modalText}>Hello World!</Text>
-                        <Button
-                            title="Hide modal"
-                            onPress={() => setModalVisible(!modalVisible)}>
-                        </Button>
+                        <View style={styles.modalTitle}>
+                            <Text style={styles.breakText}>Select your break time</Text>
+                            <Text style={styles.descLine1}>go grab a snack, get a glass of water, take a nap!</Text>
+                            <Text style={styles.descLine2}>make sure not to burnout!</Text>
+                        </View>
+
+                        <View style={styles.modalSpark}>
+                            <Button
+                                title="Spark"
+                                onPress={() => setModalVisible(!modalVisible)}>
+                            </Button>
+                        </View>
+
                     </View>
                 </View>
             </Modal>
@@ -98,11 +106,12 @@ var styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 22,
-      },
-      modalView: {
+    },
+
+    modalView: {
         margin: 20,
         backgroundColor: 'white',
-        borderRadius: 20,
+        borderRadius: 50,
         width: '100%',
         height: '60%',
         marginTop: 580,
@@ -110,13 +119,38 @@ var styles = StyleSheet.create({
         alignItems: 'center',
         shadowColor: '#000',
         shadowOffset: {
-          width: 0,
-          height: 2,
+            width: 0,
+            height: 2,
         },
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
-      },
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+
+    modalTitle: {
+        flex: 1,
+        width: '100%',
+        marginRight: 0
+    },
+    
+    breakText: {
+        fontSize: 25,
+        fontWeight: 'bold'
+    },
+
+    descLine1: {
+        marginTop: 5
+    },
+
+    descLine2: {
+        marginTop: 3
+    },
+
+    modalSpark: {
+        flex: 3
+    }
 
 
 })
