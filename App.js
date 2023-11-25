@@ -3,6 +3,7 @@ import { Button, View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TimerPage from './TimerPage.js';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 // Dropdown from 0 min to 30 min or something
 
