@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TimerPage from './TimerPage.js';
 import DropDownPicker from 'react-native-dropdown-picker';
 
-// Dropdown from 0 min to 30 min or something
+// Display seconds in terms of minutes
 
 function HomeScreen({ navigation }) {
   return (
