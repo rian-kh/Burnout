@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { Button, View, Text, Image, StyleSheet } from 'react-native';
+import { Button, View, Text, Image, StyleSheet} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 import DropDownPicker from 'react-native-dropdown-picker';
+import SlidingUpPanel from 'rn-sliding-up-panel';
 
 // "Set a time button": Brings up the picker style time thingy from the bottom
 // Time picking: 0-9h, 0-60min
@@ -14,7 +15,9 @@ import DropDownPicker from 'react-native-dropdown-picker';
 // Somehow keep the bottom "Spark" bar constant throughout different pages. Maybe import the component from Isa's app.js?
 
 // Maybe add a pause button for the break? onPress={() => setIsPlaying(prev => !prev)}
-// Fix dropdown size: Don't cover the countdown
+// Switch fonts to use the proper ones
+// Make an ACTUAL button for Set time, not an image
+
 
 function TimerPage() {
 
@@ -30,7 +33,15 @@ function TimerPage() {
             </View>
 
             <Text style={styles.select}>Select a task</Text>
-            <Button title="Set a time" />
+
+        <SlidingUpPanel ref={c => this._panel = c} allowDragging={false}>
+        <Button style={styles.button} title="Set a time" onPress={() => this._panel.show(300)}/>
+
+          <View style={styles.timerChoice}>
+            <Text>Here is the content inside panel</Text>
+            <Button title='Hide' onPress={() => this._panel.hide()} />
+          </View>
+        </SlidingUpPanel>
         </View>
     )
 }
@@ -45,15 +56,29 @@ var styles = StyleSheet.create({
     image: {
         width: null,
         resizeMode: 'contain',
-        height: 300,
-        marginTop: 100
+        width: 196,
+        height: 256,
+        marginTop: 100,
+        marginLeft: 96
     },
 
     select: {
         textAlign: 'center',
-        textDecorationLine: 'underline'
-    }
+        textDecorationLine: 'underline',
+        marginTop: 23,
+        color: "#6F5044"
+    },
 
+    button: {
+        marginTop: 16
+    },
+
+    timerChoice: {
+        flex: 1,
+        backgroundColor: 'white',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }
 
 
 })
