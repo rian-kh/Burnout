@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, View, Text, Image, StyleSheet, Dimensions} from 'react-native';
+import { Button, View, Text, Image, StyleSheet, Modal, Dimensions} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
@@ -9,10 +9,12 @@ import DropDownPicker from 'react-native-dropdown-picker';
 // "Set a time button": Brings up the picker style time thingy from the bottom
 // Time picking: 0-9h, 0-60min
 // Swipe back up, press the spark button at the bottom 
+// Black out rest of the screen: On press touchbale opacity with black tint?
 // Once pressed, show the coundown in the form MIN:SEC
 
 // Switch back to picker style stuff? 
 // Somehow keep the bottom "Spark" bar constant throughout different pages. Maybe import the component from Isa's app.js?
+
 
 // Maybe add a pause button for the break? onPress={() => setIsPlaying(prev => !prev)}
 // Switch fonts to use the proper ones
@@ -20,8 +22,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 
 
 function TimerPage() {
-
-
+    const [modalVisible, setModalVisible] = React.useState(false);
 
     return (
         <View styles={styles.container}>
@@ -34,8 +35,26 @@ function TimerPage() {
 
             <Text style={styles.select}>Select a task</Text>
 
-        <Button style={styles.button} title="Set a time"/>
-      
+            <Button title="Set a time" onPress={() => setModalVisible(true)} style={styles.button} />
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    Alert.alert('Modal has been closed.');
+                    setModalVisible(!modalVisible);
+                }}>
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text style={styles.modalText}>Hello World!</Text>
+                        <Button
+                            title="Hide modal"
+                            onPress={() => setModalVisible(!modalVisible)}>
+                        </Button>
+                    </View>
+                </View>
+            </Modal>
+
         </View>
     )
 }
@@ -72,7 +91,32 @@ var styles = StyleSheet.create({
         backgroundColor: 'white',
         alignItems: 'center',
         justifyContent: 'center',
-      }
+    },
+
+    centeredView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 22,
+      },
+      modalView: {
+        margin: 20,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        width: '100%',
+        height: '60%',
+        marginTop: 580,
+        padding: 35,
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+      },
 
 
 })
