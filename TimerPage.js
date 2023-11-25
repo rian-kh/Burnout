@@ -5,24 +5,31 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 import DropDownPicker from 'react-native-dropdown-picker';
 
+
+
+// NOTE: Visual bug on 15 min and 25 min
 // Dropdown: Maybe like 1min to 30min
 // At the top, have "Enter custom time..." that lets you use a keypad to type in 
 
 // Maybe add a pause button for the break?
+// Fix dropdown size: Don't cover the countdown
 
 function TimerPage() {
 
-    const [isPlaying, setIsPlaying] = React.useState(true)
+    const [isPlaying, setIsPlaying] = React.useState(false)
     const [open, setOpen] = React.useState(false);
     const [value, setValue] = React.useState(null);
+    const [duration, setDuration] = React.useState(10);
     const [items, setItems] = React.useState([
         { label: '5 min', value: 5 },
         { label: '10 min', value: 10 },
-        { label: '15 min', value: 25 },
+        { label: '15 min', value: 15 },
         { label: '20 min', value: 20 },
         { label: '25 min', value: 25 },
         { label: '30 min', value: 30 },
     ]);
+
+    React.useEffect(() => {setDuration(value)}, [value])
 
 
     return (
@@ -30,7 +37,7 @@ function TimerPage() {
 
             <CountdownCircleTimer
                 isPlaying={isPlaying}
-                duration={10}
+                duration={duration}
                 colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
                 colorsTime={[10, 6, 3, 0]}
                 onComplete={() => ({ shouldRepeat: true, delay: 2 })}
@@ -60,5 +67,8 @@ function TimerPage() {
     );
 }
 
+function updateTime() {
+
+}
 
 export default TimerPage;
