@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { Button, View, Text, Image, StyleSheet} from 'react-native';
+import { Button, View, Text, Image, StyleSheet, Dimensions} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 import DropDownPicker from 'react-native-dropdown-picker';
-import SlidingUpPanel from 'rn-sliding-up-panel';
+
 
 // "Set a time button": Brings up the picker style time thingy from the bottom
 // Time picking: 0-9h, 0-60min
@@ -34,14 +34,8 @@ function TimerPage() {
 
             <Text style={styles.select}>Select a task</Text>
 
-        <SlidingUpPanel ref={c => this._panel = c} allowDragging={false}>
-        <Button style={styles.button} title="Set a time" onPress={() => this._panel.show(300)}/>
-
-          <View style={styles.timerChoice}>
-            <Text>Here is the content inside panel</Text>
-            <Button title='Hide' onPress={() => this._panel.hide()} />
-          </View>
-        </SlidingUpPanel>
+        <Button style={styles.button} title="Set a time"/>
+      
         </View>
     )
 }
@@ -77,7 +71,7 @@ var styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'white',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
       }
 
 
