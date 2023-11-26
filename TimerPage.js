@@ -5,9 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 import DropDownPicker from 'react-native-dropdown-picker';
 import { Picker } from '@react-native-picker/picker';
-
-
-
+import CountDownTimer from 'react-native-countdown-timer-hooks';
 
 
 // Black out rest of the screen: On press touchbale opacity with black tint?
@@ -21,25 +19,51 @@ import { Picker } from '@react-native-picker/picker';
 // Switch fonts to use the proper ones
 // Make an ACTUAL button for Set time, not an image
 
-
 function TimerPage() {
     const [modalVisible, setModalVisible] = React.useState(false);
     const [selectedHour, setSelectedHour] = React.useState(0);
     const [selectedMin, setSelectedMin] = React.useState(0);
+    const [totalTime, setTotalTime] = React.useState(0);
     const [timerVisibility, setTimerVisibility] = React.useState('none');
+    const [timerRunning, setTimerRunning] = React.useState(false);
+
+    // Timer References
+    const refTimer = React.useRef();
+
+    // For keeping a track on the Timer
+    const [timerEnd, setTimerEnd] = React.useState(false);
+
+    const timerCallbackFunc = (timerFlag) => {
+        // Setting timer flag to finished
+        setTimerEnd(timerFlag);
+        console.warn(
+            'You can alert the user by letting him know that Timer is out.',
+        );
+    };
 
     // Create array from 0 to 59, for minute choices
     const numbers = [...Array(60).keys()]
-    
-    function onSpark() {
+
+    const sleep = (ms) => {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+    };
+
+
+    async function onSpark() {
         setModalVisible(!modalVisible);
-        setTimerVisibility('inline')
+        const newTotalTime = (selectedMin * 60) + (selectedHour * 60 * 60);
+        console.log('New Total Time:', newTotalTime);
+        await sleep(1);
+        setTotalTime(newTotalTime);
+        setTimerRunning(true);
+        setTimerVisibility('inline');
+        refTimer.current.resetTimer();
     }
-    
+
     return (
         <View styles={styles.container}>
 
-
+            {/* Log image */}
             <View>
                 <Image
                     source={require('./assets/img/timerLogs.png')}
@@ -49,10 +73,39 @@ function TimerPage() {
 
             <Text style={styles.select}>Select a task</Text>
 
-            <View style={{display:timerVisibility}}>
-                <Text style={styles.select}>{selectedHour} hours, {selectedMin} minutes</Text>
+
+            {/* Timer, only visible if spark was pressed */}
+            <View style={{ display: timerVisibility }}>
+                <Text style={styles.select}>{selectedHour} hours, {selectedMin} minutes, Total time: {totalTime}</Text>
+
+                <View style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}>
+                    <CountDownTimer
+                        ref={refTimer}
+                        timestamp={totalTime}
+                        timerCallback={timerCallbackFunc}
+                        containerStyle={{
+                            height: 56,
+                            width: 120,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            borderRadius: 35,
+                            backgroundColor: '#2196f3',
+                        }}
+                        textStyle={{
+                            fontSize: 25,
+                            color: '#FFFFFF',
+                            fontWeight: '500',
+                            letterSpacing: 0.25,
+                        }}
+                    />
+                </View>
             </View>
 
+
+            {/* Button to activate modal */}
             <Button title="Set a time" onPress={() => setModalVisible(true)} style={styles.button} />
             <Modal
                 animationType="slide"
@@ -65,12 +118,15 @@ function TimerPage() {
 
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
+
+                        {/* Modal text/desc */}
                         <View style={styles.modalTitle}>
                             <Text style={styles.breakText}>Select your break time</Text>
                             <Text style={styles.descLine1}>go grab a snack, get a glass of water, take a nap!</Text>
                             <Text style={styles.descLine2}>make sure not to burnout!</Text>
                         </View>
 
+                        {/* Row of time pickers */}
                         <View style={{ flexDirection: 'row' }}>
                             <View style={styles.hourChoice}>
                                 <Picker
@@ -103,14 +159,14 @@ function TimerPage() {
 
 
                                     {numbers.map((number) => (
-                                        <Picker.Item label={""+number+" min"} value={number} />
+                                        <Picker.Item label={"" + number + " min"} value={number} />
                                     ))}
                                 </Picker>
 
                             </View>
                         </View>
 
-
+                        {/* Spark button */}
                         <View style={styles.modalSpark}>
                             <Button
                                 title="Spark"
